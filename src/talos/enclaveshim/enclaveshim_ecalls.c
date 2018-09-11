@@ -2,10 +2,10 @@
  * Copyright 2017 Imperial College London
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at   
- * 
+ * You may obtain a copy of the License at
+ *
  * 	http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied
@@ -150,13 +150,13 @@ int initialize_enclave(void)
 	sgx_status_t ret = SGX_ERROR_UNEXPECTED;
 	int updated = 0;
 
-	/* Step 1: try to retrieve the launch token saved by last transaction 
+	/* Step 1: try to retrieve the launch token saved by last transaction
 	 *		 *          *         if there is no token, then create a new one.
 	 *			 *                   */
 	/* try to get the token saved in $HOME */
 	const char *home_dir = getpwuid(getuid())->pw_dir;
 
-	if (home_dir != NULL && 
+	if (home_dir != NULL &&
 			(strlen(home_dir)+strlen("/")+sizeof(TOKEN_FILENAME)+1) <= MAX_PATH) {
 		/* compose the token path */
 		strncpy(token_path, home_dir, strlen(home_dir));
@@ -338,7 +338,7 @@ void* async_ecall_busy_waiter(void* arg) {
 static void* ssllib_handler = NULL;
 
 void* load_original_ssl_function(char *name) {
-	if (!ssllib_handler) {	
+	if (!ssllib_handler) {
 		ssllib_handler = dlopen(OPENSSL_LIBRARY_PATH, RTLD_LAZY | RTLD_LOCAL | RTLD_DEEPBIND);
 		if (!ssllib_handler) {
 			printf("Cannot open shared library libssl.so: %s\n", dlerror());
@@ -2001,7 +2001,8 @@ void *SSL_get_ex_data(const SSL *ssl,int idx) {
 	struct ssl_ex_data* ed = hashmapGet(ssl_ex_data, (unsigned long)ssl);
 	if (!ed) {
 		printf("%s No ssl_ex_data for %p. Abort!\n", __func__, ssl);
-		exit(-1);
+		return NULL;
+		// exit(-1);
 	}
 	return (idx < ed->s ? ed->a[idx] : NULL);
 }
@@ -3361,7 +3362,7 @@ int BN_pseudo_rand(BIGNUM *rnd, int bits, int top, int bottom) {
 }
 
 int BN_set_word(BIGNUM *a, BN_ULONG w) {
-	int retval;	
+	int retval;
    if (global_eid == 0) {
    	initialize_library();
    }
@@ -4347,7 +4348,7 @@ int X509_NAME_get_text_by_NID(X509_NAME *name, int nid, char *buf, int len) {
 }
 
 X509 *X509_new(void) {
-	X509* retval;	
+	X509* retval;
    if (global_eid == 0) {
    	initialize_library();
    }
